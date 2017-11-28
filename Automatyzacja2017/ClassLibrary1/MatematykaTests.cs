@@ -10,11 +10,11 @@ namespace ClassLibrary1
     public class MatematykaTests
     {
         [Theory]
-        [InlineData(10, 20, 30 )]
+        [InlineData(10, 20, 30)] //  x,  y, expected
         [InlineData(50, 20, 70)]
        
 
-        public void Method_add_returns_sum_of_given_values(double x, double y, double expected)
+        public void Method_add_returns_sum_of_given_values(double x, double y, double expected) // wiele danych 
         {
             // arrange
             Matematyka math = new Matematyka();
