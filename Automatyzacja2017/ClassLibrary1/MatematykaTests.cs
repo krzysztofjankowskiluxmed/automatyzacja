@@ -9,18 +9,22 @@ namespace ClassLibrary1
 {
     public class MatematykaTests
     {
-        [Fact]
-        public void Method_add_returns_sum_of_given_values()
+        [Theory]
+        [InlineData(10, 20, 30 )]
+        [InlineData(50, 20, 70)]
+       
+
+        public void Method_add_returns_sum_of_given_values(double x, double y, double expected)
         {
             // arrange
             Matematyka math = new Matematyka();
             //var math = new Matematyka(); ---- mozliwy taki zapis 
 
             //act
-            double result = math.Add(10, 20);
+            double result = math.Add(x, y);
 
             //assert
-            Assert.Equal(30, result);
+            Assert.Equal(expected, result);
         }
 
         [Fact]
@@ -112,8 +116,8 @@ namespace ClassLibrary1
             double result = math.Divide(10, 20);
 
             //assert
-            //Assert.Equal(0.5, result);
-            Assert.Throws<DivideByZeroException>(() > math.Add (25,0));
+            Assert.Equal(0.5, result);
+            //Assert.Throws<DivideByZeroException>(() => math.Add (25,0));
         }
     }
 }
