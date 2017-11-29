@@ -12,11 +12,9 @@ using OpenQA.Selenium.Chrome;
 
 using System.Linq;
 
-using OpenQA.Selenium.Firefox;
 
-using System.Threading;
-
-
+using System.Collections.ObjectModel;
+using System.Collections;
 
 namespace SeleniumTests
 
@@ -33,6 +31,12 @@ namespace SeleniumTests
         private const string PageTitle = "Code Sprinters -";
 
         private const string TextToSearch = "code sprinters";
+
+        private const string LinkTextToFind = "Poznaj nasze podejście";
+
+        private const string LinkTextToFindAcceptance = "Akceptuję";
+
+        private const string LinkTextToFindKnowledge = "WIEDZA NA PIERWSZYM MIEJSCU";
 
         private IWebDriver driver;
 
@@ -72,9 +76,16 @@ namespace SeleniumTests
 
 
 
+            Assert.Single(GetElementsByLinkText(LinkTextToFind));
+            Assert.Single(GetElementsByLinkText(LinkTextToFindAcceptance));
 
 
-            var element = driver.FindElement(By.LinkText("Poznaj nasze podejście"));
+
+
+
+
+
+            var element = driver.FindElement(By.LinkText(LinkTextToFind));
 
             Assert.NotNull(element);
 
@@ -102,9 +113,13 @@ namespace SeleniumTests
 
             driver.FindElement(By.LinkText("Poznaj nasze podejście")).Click();
 
-
+            Assert.Single(GetElementsByText(LinkTextToFindKnowledge));
 
             // ver 1
+
+
+
+
 
             Assert.Contains("WIEDZA NA PIERWSZYM MIEJSCU", driver.PageSource);
 
@@ -114,9 +129,12 @@ namespace SeleniumTests
 
             // ver 2
 
-            Assert.Single(driver.FindElements(By.TagName("h2"))
+            
 
-                .Where(tag => tag.Text == "WIEDZA NA PIERWSZYM MIEJSCU"));
+
+           Assert.Single(driver.FindElements(By.TagName("h2"))
+
+               .Where(tag => tag.Text == "WIEDZA NA PIERWSZYM MIEJSCU"));
 
 
 
@@ -124,7 +142,18 @@ namespace SeleniumTests
 
         }
 
+        private IEnumerable GetElementsByText(string TextToFind)
+        {
+            return driver.FindElements(By.XPath("//*[text()='" + TextToFind + "']"));
+        }
 
+        private ReadOnlyCollection<IWebElement> GetElementsByLinkText(string link)
+
+        {
+
+            return driver.FindElements(By.LinkText(link));
+
+        }
 
         private void Search(string query)
 
@@ -223,5 +252,3 @@ namespace SeleniumTests
     }
 
 }
-
-`
