@@ -23,7 +23,8 @@ namespace SeleniumTests
     public class Example : IDisposable
 
     {
-
+        private const string SearchTextBoxId = "lst-ib";
+        private const string Google = "http://www.google.pl";
         private IWebDriver driver;
 
         private StringBuilder verificationErrors;
@@ -86,13 +87,14 @@ namespace SeleniumTests
 
         {
 
-            driver.Navigate().GoToUrl(baseURL + "/?gfe_rd=cr&dcr=0&ei=4FsdWtrJL8mv8wei1rjgAw");
+            driver.Navigate().GoToUrl(Google);
+            var searchBox = driver.FindElement(By.Id(SearchTextBoxId));
 
-            driver.FindElement(By.Id("lst-ib")).Clear();
+            searchBox.Clear();
+            searchBox.SendKeys("code sprinters");
+            searchBox.Submit();
 
-            driver.FindElement(By.Id("lst-ib")).SendKeys("codesprinters");
-
-            driver.FindElement(By.Id("lst-ib")).Submit();
+            
 
             driver.FindElement(By.LinkText("Code Sprinters -")).Click();
 
@@ -114,9 +116,13 @@ namespace SeleniumTests
 
             WaitForClickable(By.LinkText("Akceptuję"), 5);
 
-            driver.FindElement(By.LinkText("Akceptuję")).Click();
 
-            Thread.Sleep(2000);
+
+            driver.FindElement(By.LinkText("Akceptuję")).Click();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(11));
+
+            wait.Until(ExpectedConditions.InvisibilityOfElementWithText(By.LinkText("Akceptuję"), "Akceptuję"));
+            //Thread.Sleep(2000);
 
             WaitForClickable(By.LinkText("Poznaj nasze podejście"), 5);
 
