@@ -1,11 +1,23 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+
+using System;
+
+using System.Linq;
+
+
 
 namespace PageObjcectTests
+
 {
+
     internal class NotePage
+
     {
+
         internal static void AddComment(Comment testData)
+
         {
+
             var commentBox = Browser.FindElementById("comment");
 
             commentBox.Click();
@@ -22,6 +34,12 @@ namespace PageObjcectTests
 
 
 
+
+
+            var nameLabel = Browser.FindByXpath("//label[@for='author']");
+
+            nameLabel.First().Click();
+
             var name = Browser.FindElementById("author");
 
             name.Click();
@@ -33,6 +51,9 @@ namespace PageObjcectTests
             var submit = Browser.FindElementById("comment-submit");
 
             submit.Click();
+
         }
+
     }
+
 }
